@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+{% block title %}
+Check Out
+{% endblock title %} 
+{% block content %}
+
+<h1>Checkout</h1>
+
+{% endblock content %} 
+{% block body %} 
+{% load static %}
+<div class="container mt-5">
+    <h2>Checkout</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="address">Shipping Address</label>
+            <textarea name="address" id="address" rows="3" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" name="phone" id="phone" class="form-control" required>
+        </div>
+
+        <h4>Order Summary</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>${{ item.total_price }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Total Amount:</strong></td>
+                    <td>KES {{ total_amount }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success">Place Order</button>
+    </form>
+</div>
+{% endblock body %}
